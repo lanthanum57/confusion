@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
-class Dishdetail extends Component {
-    renderComments(dish) {
-        const comment = dish.comments.map((comment) => {
+    function RenderComments({comments}) {
+        const comment = comments.map((comment) => {
             if(comment != null)
             {
                 return(
@@ -29,24 +28,29 @@ class Dishdetail extends Component {
             </div>
         )
     }
+    
+    function RenderDish({dish}) {
+        return(
+            <Card>
+                <CardImg top src={dish.image} alt={dish.name} />
+                <CardBody>
+                    <CardTitle>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>
+                </CardBody>
+            </Card>
+        );
+    }
 
-    render() {
-        const dish = this.props.dish;
-        if (dish != null) {
+    const Dishdetail = (props) => {
+        if (props.dish != null) {
             return(
                 <div className='container'>
                     <div className='row'>
                         <div className='col-12 col-md-5 m-1'>
-                            <Card>
-                                <CardImg top src={dish.image} alt={dish.name} />
-                                <CardBody>
-                                    <CardTitle>{dish.name}</CardTitle>
-                                    <CardText>{dish.description}</CardText>
-                                </CardBody>
-                            </Card>
+                            <RenderDish dish={props.dish} />
                         </div>
                         <div className='col-12 col-md-5 m-1'>
-                            {this.renderComments(dish)}
+                            <RenderComments comments={props.dish.comments} />
                         </div>
                     </div>
                 </div>
@@ -58,6 +62,5 @@ class Dishdetail extends Component {
             );
         }
     }
-}
 
 export default Dishdetail;
